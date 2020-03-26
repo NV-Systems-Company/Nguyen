@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
       ),
       home: MyHomePage(title: 'Cổng Thông Tin Họ Nguyễn'),
     );
@@ -71,7 +71,9 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Center(
+          child: Text(widget.title),
+        ),
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
@@ -93,13 +95,10 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+            HomeIcon(homeicons : 'news'),
+            HomeIcon(homeicons : 'news'),
+            HomeIcon(homeicons : 'news'),
+            HomeIcon(homeicons : 'news')
           ],
         ),
       ),
@@ -109,5 +108,14 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+}
+class HomeIcon extends StatelessWidget{
+  HomeIcon({this.homeicons});
+  final String homeicons;
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Image.asset('assets/images/icon_' + (homeicons) + '.png',width: 50,height: 50);
   }
 }
