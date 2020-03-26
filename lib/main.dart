@@ -21,6 +21,9 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         primarySwatch: Colors.red,
+        primaryColor: const Color(0xFFf44336),
+        accentColor: const Color(0xFFf44336),
+        canvasColor: const Color(0xFFff0000),
       ),
       home: MyHomePage(title: 'Cổng Thông Tin Họ Nguyễn'),
     );
@@ -46,16 +49,30 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  int _selectedIndex = 0;
+  static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static const List<Widget> _widgetOptions = <Widget>[
+    Text(
+      'Index 0: Home',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 1: Business',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 2: School',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 3: Tài khoản',
+      style: optionStyle,
+    ),
+  ];
 
-  void _incrementCounter() {
+  void _onItemTapped(int index) {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      _selectedIndex = index;
     });
   }
 
@@ -68,54 +85,129 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
+
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Center(
-          child: Text(widget.title),
+          child: Text(
+            widget.title,
+            style: TextStyle(color: const Color(0xFFeaea0a)),
+          ),
+        ),
+        actions: <Widget>[
+          PopupMenuButton<Choice>(
+            onSelected: null,
+            itemBuilder: (BuildContext context) {
+              return choices.skip(2).map((Choice choice) {
+                return PopupMenuItem<Choice>(
+                  value: choice,
+                  child: Text(choice.title),
+                );
+              }).toList();
+            },
+          ),
+        ],
+        leading: new Image.asset(
+          'assets/logo/logo.png',
+          fit: BoxFit.fill,
+          width: 50,
+          height: 50,
+
         ),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            HomeIcon(homeicons : 'news'),
-            HomeIcon(homeicons : 'news'),
-            HomeIcon(homeicons : 'news'),
-            HomeIcon(homeicons : 'news')
+      body: new Container(
+
+        child: new Image.asset(
+          'assets/images/icon_news.png',
+          fit: BoxFit.fill,
+          width: 50,
+          height: 50,
+
+        ),
+        padding: const EdgeInsets.all(0.0),
+        alignment: Alignment.center,
+      ),
+        bottomNavigationBar: new BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              title: Text('Trang chủ'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.chat),
+              title: Text('Tin nhắn'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.notifications),
+              title: Text('Thông Báo'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.timeline),
+              title: Text('Gia Phả'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.account_circle),
+              title: Text('Tài khoản'),
+            ),
           ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.amber[800],
+          onTap: _onItemTapped,
+          backgroundColor:  Color.fromRGBO(255, 132, 111, 1),
+        )
+      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
-class HomeIcon extends StatelessWidget{
+
+class HomeIcon extends StatelessWidget {
   HomeIcon({this.homeicons});
   final String homeicons;
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Image.asset('assets/images/icon_' + (homeicons) + '.png',width: 50,height: 50);
+    return Image.asset('assets/images/icon_' + (homeicons) + '.png',
+        width: 50, height: 50);
+  }
+}
+
+class Choice {
+  const Choice({this.title, this.icon});
+
+  final String title;
+  final IconData icon;
+}
+
+const List<Choice> choices = const <Choice>[
+  const Choice(title: 'Car', icon: Icons.directions_car),
+  const Choice(title: 'Bicycle', icon: Icons.directions_bike),
+  const Choice(title: 'Boat', icon: Icons.directions_boat),
+  const Choice(title: 'Bus', icon: Icons.directions_bus),
+  const Choice(title: 'Train', icon: Icons.directions_railway),
+  const Choice(title: 'Walk', icon: Icons.directions_walk),
+];
+
+class ChoiceCard extends StatelessWidget {
+  const ChoiceCard({Key key, this.choice}) : super(key: key);
+
+  final Choice choice;
+
+  @override
+  Widget build(BuildContext context) {
+    final TextStyle textStyle = Theme.of(context).textTheme.display1;
+    return Card(
+      color: Colors.white,
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Icon(choice.icon, size: 128.0, color: textStyle.color),
+            Text(choice.title, style: textStyle),
+          ],
+        ),
+      ),
+    );
   }
 }
