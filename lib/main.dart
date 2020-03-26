@@ -21,9 +21,9 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         primarySwatch: Colors.red,
-        primaryColor: const Color(0xFFf44336),
-        accentColor: const Color(0xFFf44336),
-        canvasColor: const Color(0xFFff0000),
+        primaryColor: const Color(0xFFff0000),
+        accentColor: const Color(0xFFff0000),
+        //canvasColor: const Color(0xFFff0000),
       ),
       home: MyHomePage(title: 'Cổng Thông Tin Họ Nguyễn'),
     );
@@ -50,7 +50,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static const TextStyle optionStyle =
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     Text(
       'Index 0: Home',
@@ -85,78 +86,80 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Center(
-          child: Text(
-            widget.title,
-            style: TextStyle(color: const Color(0xFFeaea0a)),
+        appBar: AppBar(
+          // Here we take the value from the MyHomePage object that was created by
+          // the App.build method, and use it to set our appbar title.
+          title: Center(
+            child: Text(
+              widget.title,
+              style: TextStyle(color: const Color(0xFFeaea0a)),
+            ),
           ),
-        ),
-        actions: <Widget>[
-          PopupMenuButton<Choice>(
-            onSelected: null,
-            itemBuilder: (BuildContext context) {
-              return choices.skip(2).map((Choice choice) {
-                return PopupMenuItem<Choice>(
-                  value: choice,
-                  child: Text(choice.title),
-                );
-              }).toList();
-            },
-          ),
-        ],
-        leading: new Image.asset(
-          'assets/logo/logo.png',
-          fit: BoxFit.fill,
-          width: 50,
-          height: 50,
-
-        ),
-      ),
-      body: new Container(
-
-        child: new Image.asset(
-          'assets/images/icon_news.png',
-          fit: BoxFit.fill,
-          width: 50,
-          height: 50,
-
-        ),
-        padding: const EdgeInsets.all(0.0),
-        alignment: Alignment.center,
-      ),
-        bottomNavigationBar: new BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              title: Text('Trang chủ'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.chat),
-              title: Text('Tin nhắn'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.notifications),
-              title: Text('Thông Báo'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.timeline),
-              title: Text('Gia Phả'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle),
-              title: Text('Tài khoản'),
+          actions: <Widget>[
+            PopupMenuButton<Choice>(
+              onSelected: null,
+              itemBuilder: (BuildContext context) {
+                return choices.skip(2).map((Choice choice) {
+                  return PopupMenuItem<Choice>(
+                    value: choice,
+                    child: Text(choice.title),
+                  );
+                }).toList();
+              },
             ),
           ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: Colors.amber[800],
-          onTap: _onItemTapped,
-          backgroundColor:  Color.fromRGBO(255, 132, 111, 1),
-        )
-      // This trailing comma makes auto-formatting nicer for build methods.
+          leading: new Image.asset(
+            'assets/logo/logo.png',
+            fit: BoxFit.fill,
+            width: 50,
+            height: 50,
+          ),
+        ),
+        body: new Container(
+          child: new Image.asset(
+            'assets/images/icon_news.png',
+            fit: BoxFit.fill,
+            width: 50,
+            height: 50,
+          ),
+          padding: const EdgeInsets.all(0.0),
+          alignment: Alignment.center,
+        ),
+        bottomNavigationBar:  new Theme(
+            data: Theme.of(context).copyWith(
+              canvasColor: Color(0xFFff0000),
+              primaryColor: Colors.yellow,
+            ),
+            child: new BottomNavigationBar(
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  title: Text('Trang chủ'),
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.chat),
+                  title: Text('Tin nhắn'),
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.notifications),
+                  title: Text('Thông Báo'),
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.timeline),
+                  title: Text('Gia Phả'),
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.account_circle),
+                  title: Text('Tài khoản'),
+                ),
+              ],
+              currentIndex: _selectedIndex,
+              selectedItemColor: const Color(0xFFeaea0a),
+              onTap: _onItemTapped,
+            ),
+
+        ),
+        // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
@@ -197,7 +200,7 @@ class ChoiceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextStyle textStyle = Theme.of(context).textTheme.display1;
     return Card(
-      color: Colors.white,
+      color: Colors.red,
       child: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
