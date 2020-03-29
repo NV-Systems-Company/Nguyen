@@ -3,6 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:honguyen/main.dart';
+import 'package:flutter/foundation.dart';
+import 'dart:developer';
+
+
+
 class InfoApp {
   final String status;
   final String code;
@@ -18,7 +23,17 @@ class InfoApp {
     );
   }
 }
+class NewsList {
+  final String data;
 
+  NewsList({this.data});
+
+  factory NewsList.fromJson(json) {
+    return NewsList(
+      data: json,
+    );
+  }
+}
 
 Future<InfoApp> fetchInfo() async {
   Map<String, String> headers = {"Content-type": "application/json"};
@@ -28,6 +43,7 @@ Future<InfoApp> fetchInfo() async {
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
+
     return InfoApp.fromJson(jsonDecode(response.body));
   } else {
     // If the server did not return a 200 OK response,
@@ -36,7 +52,7 @@ Future<InfoApp> fetchInfo() async {
   }
 }
 
-Future<NewsList> fetchInfo() async {
+Future<NewsList> fetchListNews() async {
   Map<String, String> headers = {"Content-type": "application/json"};
   String json = '{"action": "ListNewsItems", "module": "news", "language": "vi"}';
   final response = await http.post(API,headers: headers,body: json);
@@ -44,7 +60,9 @@ Future<NewsList> fetchInfo() async {
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    return InfoApp.fromJson(jsonDecode(response.body));
+    var request_data = jsonDecode(response.body);
+
+    return NewsList.fromJson(request_data['message']);
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
