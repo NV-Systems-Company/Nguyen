@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:honguyen/classdefine.dart';
 import 'router.dart';
 import 'package:http/http.dart' as http;
+import 'package:bidirectional_scroll_view/bidirectional_scroll_view.dart';
+import 'package:honguyen/FamilyTreeView.dart';
+import 'package:honguyen/models/models.dart';
+import 'package:flutter/rendering.dart';
 
 const maintitle = "HoNguyen.vn";
 const domain = "api.nguyenvan.vn";
@@ -59,15 +63,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-
-
+  Person rootPerson;
   int _selectedIndex = 0;
-
   String title;
   final int _pageCount = 5;
   @override
   void initState() {
+      super.initState();
+      // prepare root member of heirarchy
+      rootPerson = dummyFamily();
   }
   void _onItemTapped(int index) {
     setState(() {
@@ -341,9 +345,19 @@ class _MyHomePageState extends State<MyHomePage> {
     var assetImage = new AssetImage("assets/logo/logo.png");
     var image = new Image(image: assetImage, height: 100.0, width: 330.0);
     return new Container(
-      height: image.height,
-      width: image.width,
-      child: image,
+      alignment: Alignment.topCenter,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 28.0),
+        child: BidirectionalScrollViewPlugin(
+          child: Container(
+            // Use of Family Tree widget. Have to pass the Root family member
+            child: FamilyTreeWidget(
+              person: rootPerson,
+              isRootNode: true,
+            ),
+          ),
+        ),
+      ),
     );
   }
 
